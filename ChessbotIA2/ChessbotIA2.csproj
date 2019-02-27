@@ -39,6 +39,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bot_IA_Management.cs" />
     <Compile Include="Cavalier.cs" />
     <Compile Include="Fou.cs" />
     <Compile Include="Game1.cs" />

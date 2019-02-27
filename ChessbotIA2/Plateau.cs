@@ -81,10 +81,6 @@ namespace ChessbotIA2
             int yIndex_spriteFont = 0;*/
             foreach (int[] index in IndexesPositions_Map.Keys)
             { 
-               
-                
-               
-                
                     if ((index[1] % 2 == 0 && index[0] % 2 != 0) || (index[1] % 2 != 0 && index[0] % 2 == 0))
                     {
                             spriteBatch.Draw(noir, new Rectangle((int)IndexesPositions_Map[index].X, (int)IndexesPositions_Map[index].Y, CasesDimension, CasesDimension), new Color(147, 147, 147, 120));

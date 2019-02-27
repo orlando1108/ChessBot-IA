@@ -41,11 +41,11 @@ namespace ChessbotIA2
         int j;
         bool playing;
         bool gameInitialisation;
-        bool gameSelection;
+        bool isBot;
         List<int[]> listeCoordonneesAutorisees;
-         Dictionary<Piece, int[]> IndexesObjects_Map;
-        List<Piece> l;
-        int test = 0;
+        Dictionary<Piece, int[]> IndexesObjects_Map;
+        List<Piece> liste_PiecesCapturees;
+        Bot_IA_Management bot_IA;
 
         public Game1()
         {
@@ -55,40 +55,41 @@ namespace ChessbotIA2
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             plateau = new Plateau();
-            listePions = new List<Piece>();
-            l = new List<Piece>();
+            bot_IA = new Bot_IA_Management();
+            // listePions = new List<Piece>();
 
             i = 0;
             j = 0;
             playing = false;
             gameInitialisation = true;
-            gameSelection = false;
+            isBot = false;
             IndexesObjects_Map = new Dictionary<Piece, int[]>();
+            liste_PiecesCapturees = new List<Piece>();
 
-            // pion_b = new Pion();
-            tour_b1 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "tour", 'b','g');
-            tour_b2 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "tour", 'b', 'd');
-            tour_n1 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "tour", 'n', 'g');
-            tour_n2 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "tour", 'n', 'd');
+        // pion_b = new Pion();
+            tour_b1 = new Piece(plateau.Position, "tour_b1", plateau.Dimension, plateau.CasesDimension, "tour", 'b','g');
+            tour_b2 = new Piece(plateau.Position, "tour_b2", plateau.Dimension, plateau.CasesDimension, "tour", 'b', 'd');
+            tour_n1 = new Piece(plateau.Position, "tour_n1", plateau.Dimension, plateau.CasesDimension, "tour", 'n', 'g');
+            tour_n2 = new Piece(plateau.Position, "tour_n2", plateau.Dimension, plateau.CasesDimension, "tour", 'n', 'd');
 
 
-            fou_b1 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "fou", 'b', 'g');
-            fou_b2 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "fou", 'b', 'd');
-            fou_n1 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "fou", 'n', 'g');
-            fou_n2 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "fou", 'n', 'd');
+            fou_b1 = new Piece(plateau.Position, "fou_b1", plateau.Dimension, plateau.CasesDimension, "fou", 'b', 'g');
+            fou_b2 = new Piece(plateau.Position, "fou_b2", plateau.Dimension, plateau.CasesDimension, "fou", 'b', 'd');
+            fou_n1 = new Piece(plateau.Position, "fou_n1", plateau.Dimension, plateau.CasesDimension, "fou", 'n', 'g');
+            fou_n2 = new Piece(plateau.Position, "fou_n2", plateau.Dimension, plateau.CasesDimension, "fou", 'n', 'd');
            
 
 
-            cavalier_b1 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "cavalier", 'b', 'g');
-            cavalier_b2 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "cavalier", 'b', 'd');
-            cavalier_n1 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "cavalier", 'n', 'g');
-            cavalier_n2 = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "cavalier", 'n', 'd');
+            cavalier_b1 = new Piece(plateau.Position, "cavalier_b1", plateau.Dimension, plateau.CasesDimension, "cavalier", 'b', 'g');
+            cavalier_b2 = new Piece(plateau.Position, "cavalier_b2", plateau.Dimension, plateau.CasesDimension, "cavalier", 'b', 'd');
+            cavalier_n1 = new Piece(plateau.Position, "cavalier_n1", plateau.Dimension, plateau.CasesDimension, "cavalier", 'n', 'g');
+            cavalier_n2 = new Piece(plateau.Position, "cavalier_n2", plateau.Dimension, plateau.CasesDimension, "cavalier", 'n', 'd');
 
 
-            roi_b = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "roi", 'b');
-            roi_n = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "roi", 'n');
-            reine_b = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "reine", 'b');
-            reine_n = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "reine", 'n');
+            roi_b = new Piece(plateau.Position, "roi_b", plateau.Dimension, plateau.CasesDimension, "roi", 'b');
+            roi_n = new Piece(plateau.Position, "roi_n", plateau.Dimension, plateau.CasesDimension, "roi", 'n');
+            reine_b = new Piece(plateau.Position, "reine_b", plateau.Dimension, plateau.CasesDimension, "reine", 'b');
+            reine_n = new Piece(plateau.Position, "reine_n", plateau.Dimension, plateau.CasesDimension, "reine", 'n');
 
 
             listePieces_Blanches = new List<Piece>() { tour_b1, fou_b1, cavalier_b1, tour_b2, fou_b2, cavalier_b2, roi_b, reine_b };
@@ -99,12 +100,12 @@ namespace ChessbotIA2
 
             for (int i = 0; i< plateau.Dimension;i++)
             {
-                pion_b = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "pion", 'b','0',i);
-                listePions.Add(pion_b);
+                pion_b = new Piece(plateau.Position, "pion_b"+i, plateau.Dimension, plateau.CasesDimension, "pion", 'b','0',i);
+              //  listePions.Add(pion_b);
                 listePieces_Blanches.Add(pion_b);
                 listePieces.Add(pion_b);
-                pion_n = new Piece(plateau.Position, plateau.Dimension, plateau.CasesDimension, "pion", 'n','0',i);
-                listePions.Add(pion_n);
+                pion_n = new Piece(plateau.Position, "pion_b"+i, plateau.Dimension, plateau.CasesDimension, "pion", 'n','0',i);
+               // listePions.Add(pion_n);
                 listePieces_Noires.Add(pion_n);
                 listePieces.Add(pion_n);
             }
@@ -188,33 +189,38 @@ namespace ChessbotIA2
 
            
 
-            if (playing)
+            if (playing && !isBot)
             {
                 oldState = state;
                 state = Keyboard.GetState();
-
               
-                    if (oldState != state && state.IsKeyDown(Keys.Space))
-                    {
-                    List<Piece> list = new List<Piece>();
+                if (oldState != state && state.IsKeyDown(Keys.Space))
+                {
                     foreach (Piece p in listePieces_Blanches)
                     {
-                        p.Update(gameTime, plateau, ref listeCoordonneesAutorisees, IndexesObjects_Map);
+                        p.Update(gameTime, plateau, ref listeCoordonneesAutorisees, liste_PiecesCapturees, IndexesObjects_Map);
 
                         if (p.Moving)
                         {
                             IndexesObjects_Map[p] = p.Coordonnees;
-                            Piece pieceMangee = p.listePiecesAmanger.Find(x => x.Active == false);
-                            if (p.listePiecesAmanger.Count > 0 && pieceMangee != null)
+                            Piece pieceMangee = p.liste_PiecesAmanger.Find(x => x.Active == false);
+                            if (p.liste_PiecesAmanger.Count > 0 && pieceMangee != null)
                             {
                                 pieceMangee.Update(gameTime, plateau, ref listeCoordonneesAutorisees);
-                                p.listePiecesAmanger.Clear();
+                                p.liste_PiecesAmanger.Clear();
                             }
                             
                             p.Moving = false;
+                            isBot = true;
                         }
                     }
                 }
+            }
+            else
+            {
+                //chaud cacao !! 
+                bot_IA.Update(gameTime, listePieces_Blanches, listePieces_Noires, IndexesObjects_Map);
+                isBot = false;
             }
 
             base.Update(gameTime);
@@ -224,7 +230,6 @@ namespace ChessbotIA2
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            //spriteBatch.Draw(rectangle, new Rectangle(50, 50, 100, 100), Color.White);
             plateau.Draw(spriteBatch, listeCoordonneesAutorisees);
             
             foreach(Piece p in listePieces_Blanches)
@@ -233,10 +238,6 @@ namespace ChessbotIA2
             }
             foreach(Piece p in listePieces_Noires)
             {
-                if (!p.Active)
-                {
-                    int t = 1;
-                }
                 p.Draw(spriteBatch);
             }
             spriteBatch.End();
